@@ -1,7 +1,7 @@
 // Approach 2: Examples
 // Fully independent standalone files
 // Each has its own fn main()
-// Run with: cargo run --example extra_kinematics -p practice_1
+// Run with: cargo run --example extra_kinematics
 
 fn main() {
     let g = 9.81; // m/s^2
