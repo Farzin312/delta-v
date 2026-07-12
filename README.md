@@ -6,7 +6,7 @@
 
 A self-paced, dependency-driven curriculum for becoming a **computational space systems engineer**.
 
-Physics &nbsp;·&nbsp; Rust &nbsp;·&nbsp; Space Systems &nbsp;·&nbsp; AI &nbsp;·&nbsp; Quantum
+Physics &nbsp;·&nbsp; Rust &nbsp;·&nbsp; Python &nbsp;·&nbsp; C/C++ &nbsp;·&nbsp; Space Systems &nbsp;·&nbsp; AI
 
 Every equation becomes an executable. Every implementation gets tested, broken deliberately, and verified independently.
 
@@ -35,7 +35,9 @@ No borrowed understanding.
 
 ## What is this?
 
-This repo is the code implementation of the [Frontier Engineer Field Manual](https://github.com/Farzin312/delta-v) -- a 104-unit path from high-school algebra to building mission-grade space systems software. It is a **build log**: every concept is implemented in Rust, tested against known physics, deliberately broken, and verified independently.
+This repo is the code implementation of the [Frontier Engineer Field Manual](https://github.com/Farzin312/delta-v) -- a 104-unit path from high-school algebra to building mission-grade space systems software. It is a **build log**: every concept is implemented in Rust first, tested against known physics, deliberately broken, and verified independently.
+
+**Rust is the primary language. Python is the scientific/AI partner. C/C++ is the bridge for flight frameworks and legacy systems.** The first 30 sessions are pure Rust. Python enters at Stage 10 (Scientific AI). C/C++ enters at Stage 7 (Systems + Embedded) for FFI, cFS, and F Prime. See [docs/method.md](docs/method.md) for the full language strategy.
 
 The destination is a specific kind of engineer:
 
@@ -286,6 +288,7 @@ The full [AI-Quarantine Protocol](docs/method.md#7-the-ai-quarantine-protocol) d
 | [docs/method.md](docs/method.md) | The 7-step loop, programming approach, AI-quarantine protocol, understanding debt, field checklists, question ladder |
 | [docs/setup.md](docs/setup.md) | Environment setup, tool installation, how to run, engineering log template |
 | [first_30/CATALOG.md](first_30/CATALOG.md) | Session-by-session index with difficulty ratings and status tracking |
+| [scripts/README.md](scripts/README.md) | Session generator: create, list, health-check, and restore practice templates |
 
 ---
 

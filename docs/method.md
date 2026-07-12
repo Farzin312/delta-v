@@ -52,7 +52,17 @@ The loop is the countermeasure. It forces you to produce something at every step
 
 ## 2. The Three Spines
 
-Everything builds along three simultaneous spines. No spine is optional. The manual explicitly warns against trying to become simultaneously equivalent to a PhD physicist, a senior flight-software engineer, a GNC specialist, a quantum researcher, and a propulsion engineer. Instead, it builds a **T-shaped identity**: deep capability in computational physics + mission-grade software, supported by broad literacy across spacecraft systems, autonomy, AI, and quantum technology.
+Everything builds along three simultaneous spines. No spine is optional.
+
+**Language strategy across the spines:**
+
+| Language | Role | When it enters |
+|----------|------|----------------|
+| **Rust** | Primary learning and systems language. Ownership, borrowing, explicit errors, and algebraic data types force design decisions into the open. | Day 1 (Session 01) |
+| **Python** | Scientific/AI notebook and reference language. Exploration, visualization, ML training. Bridges to Rust via PyO3/maturin. | Stage 10 (Unit 73) |
+| **C/C++** | Required bridge for flight frameworks (cFS, F Prime), libraries, interviews, and legacy integration. FFI via bindgen/cxx. | Stage 7 (Unit 51) |
+
+Rust is the primary language, but Rust is not enough. Current SpaceX, Rocket Lab, Varda, Axiom, and quant roles still repeatedly signal C++, Python, or both. The curriculum does not restart from zero in each language -- it re-implements selected, already-validated components (Vec3, RK4, a parser, a telemetry packet) and focuses the comparison on ownership, errors, layout, build systems, testing, and ecosystem integration, not language marketing. The manual explicitly warns against trying to become simultaneously equivalent to a PhD physicist, a senior flight-software engineer, a GNC specialist, a quantum researcher, and a propulsion engineer. Instead, it builds a **T-shaped identity**: deep capability in computational physics + mission-grade software, supported by broad literacy across spacecraft systems, autonomy, AI, and quantum technology.
 
 ```
   Physical Reasoning          Software Systems           Evidence & Judgment
