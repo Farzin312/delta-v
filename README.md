@@ -20,7 +20,11 @@ No borrowed understanding.
 
 ## Table of Contents
 
-- [What is this?](#what-is-this)
+- [Foundation, Method, Destination](#foundation-method-destination)
+- [Who Is This For?](#who-is-this-for)
+- [What Is This?](#what-is-this)
+- [Why Does This Exist?](#why-does-this-exist)
+- [Where This Leads](#where-this-leads)
 - [The Three Spines](#the-three-spines)
 - [The 7-Step Learning Loop](#the-7-step-learning-loop)
 - [Curriculum at a Glance](#curriculum-at-a-glance)
@@ -33,7 +37,48 @@ No borrowed understanding.
 
 ---
 
-## What is this?
+## Foundation, Method, Destination
+
+```
+  FOUNDATION              METHOD                       DESTINATION
+  ---------               ------                       -----------
+  Algebra remembered.     Predict, derive,             Computational physics,
+  Everything else may     implement, test,             flight software, GNC,
+  be blurry.              falsify, explain.            autonomy, scientific AI,
+                                                       or a frontier company.
+```
+
+You do not need to be a math prodigy. You need algebra, willingness to struggle, and the discipline to follow a loop that forces understanding over memorization. The curriculum rebuilds calculus, linear algebra, numerics, dynamics, controls, and estimation from the ground up. If you are willing to write code before you feel ready, you are qualified to start.
+
+---
+
+## Who Is This For?
+
+**You should be here if:**
+
+- You want to build things that fly, orbit, land, or operate autonomously
+- You are tired of tutorials that teach syntax without physics
+- You want to understand equations well enough to implement them, break them, and defend them
+- You are self-motivated and do not need a classroom calendar
+- You believe AI is a tool, not a replacement for engineering judgment
+
+**You should NOT be here if:**
+
+- You want a quick "learn Rust in 30 days" course
+- You are looking for copy-paste solutions
+- You are not willing to write code that fails and figure out why
+- You want to skip the physics and go straight to building product
+
+**Prerequisites:**
+
+- High-school algebra (everything else is rebuilt from scratch)
+- No prior Rust required (Rust starts from Session 01)
+- No prior physics beyond basic mechanics
+- A computer with Rust installed ([setup guide](docs/setup.md))
+
+---
+
+## What Is This?
 
 This repo is the code implementation of the [Frontier Engineer Field Manual](https://github.com/Farzin312/delta-v) -- a 104-unit path from high-school algebra to building mission-grade space systems software. It is a **build log**: every concept is implemented in Rust first, tested against known physics, deliberately broken, and verified independently.
 
@@ -58,6 +103,37 @@ This is the overlap that most candidates leave empty:
   |                                                           |
   +-----------------------------------------------------------+
 ```
+
+---
+
+## Why Does This Exist?
+
+The world does not need another "learn to code" tutorial. It needs engineers who can:
+
+- Translate a physics equation into a typed, tested, performant program.
+- Recognize when a model is invalid, when a numerical method is lying, and when AI is hallucinating.
+- Design systems that survive hardware constraints, real-time deadlines, and operational failure.
+- Own outcomes when the model is wrong.
+
+Current SpaceX simulation roles call for classical physics, math, C++, Python, debugging, performance, and testing. SpaceX GNC work combines orbital mechanics, control, estimation, optimization, production software, data analysis, and documentation. Rocket Lab, Anduril, Varda, and Axiom show the same pattern across flight dynamics, GNC, autonomy, simulation, and embedded software.
+
+This curriculum builds exactly that profile, from first principles, in public.
+
+---
+
+## Where This Leads
+
+This is not a speculative learning path. It maps directly to real roles at real companies.
+
+| Category | Employers | What They Value |
+|----------|-----------|-----------------|
+| Launch and spacecraft | SpaceX, Blue Origin, Rocket Lab, Firefly, Relativity, Stoke, ULA | C++/Python/Rust, physics, simulation, GNC, embedded, test, production ownership |
+| Stations, lunar, reentry | Axiom, Sierra Space, Intuitive Machines, Astrobotic, Varda | 6-DOF/GNC, thermal/fluids, flight software, HIL, surface operations |
+| Satellites and comms | Astranis, Planet, Maxar, Loft, CesiumAstro, Starlink ecosystem | RF/comms, embedded, constellation ops, remote sensing, data platforms |
+| Autonomy and defense | Anduril, Shield AI, Applied Intuition | C++/Rust, perception, SLAM, planning, control, estimation, simulation |
+| Civil science/exploration | NASA centers, JPL, national labs, observatories | Research, V&V, mission lifecycle, documentation, collaboration |
+
+The portfolio evidence ladder (detailed in [docs/curriculum.md](docs/curriculum.md)) shows what each stage of the curriculum proves to these employers. You are not collecting certificates. You are building artifacts another engineer can reproduce, challenge, and extend.
 
 ---
 
@@ -150,20 +226,21 @@ Read the full map: [docs/curriculum.md](docs/curriculum.md)
 
 ## Repository Structure
 
-This repo follows a scalable pattern. Each stage gets a directory. Each unit/session within it gets a subdirectory. Every subdirectory is a self-contained Cargo project with the same three files.
+This repo follows a scalable pattern. Each stage gets a directory. Each unit/session within it gets a subdirectory. Every subdirectory is a self-contained Cargo project with the same files.
 
 ```
 delta-v/
 |
 |-- assets/
 |   |-- logo.svg                <-- Full logo with tagline
-|   |-- icon.svg                <-- Square icon (for social/Og)
+|   |-- icon.svg                <-- Square icon (for social/og)
 |
 |-- docs/                       <-- Deep guides for following along
 |   |-- curriculum.md           <-- Full 104-unit, 13-stage map
 |   |-- method.md               <-- The 7-step loop, programming approach,
 |   |                               AI-quarantine, mastery gates, field checklists
 |   |-- setup.md                <-- Environment setup, how to run, engineering log
+|   |-- scripts.md              <-- Session generator tool documentation
 |
 |-- first_30/                   <-- Stages 1-2 launch sessions
 |   |-- CATALOG.md              <-- Master index with difficulty + status tracking
@@ -176,7 +253,10 @@ delta-v/
 |   |-- ...                     <-- Sessions 03-29
 |   |-- practice_30/            <-- Session 30: Ship a verified mechanics slice
 |
-|-- LICENSE                     <-- MIT (see below)
+|-- scripts/
+|   |-- new_session.py          <-- Session generator (create, list, doctor, regenerate)
+|
+|-- LICENSE                     <-- MIT
 |-- README.md                   <-- You are here
 ```
 
@@ -287,8 +367,8 @@ The full [AI-Quarantine Protocol](docs/method.md#7-the-ai-quarantine-protocol) d
 | [docs/curriculum.md](docs/curriculum.md) | Full 104-unit map across 13 stages, portfolio evidence ladder, competitive positioning |
 | [docs/method.md](docs/method.md) | The 7-step loop, programming approach, AI-quarantine protocol, understanding debt, field checklists, question ladder |
 | [docs/setup.md](docs/setup.md) | Environment setup, tool installation, how to run, engineering log template |
+| [docs/scripts.md](docs/scripts.md) | Session generator: create, list, health-check, and restore practice templates |
 | [first_30/CATALOG.md](first_30/CATALOG.md) | Session-by-session index with difficulty ratings and status tracking |
-| [scripts/README.md](scripts/README.md) | Session generator: create, list, health-check, and restore practice templates |
 
 ---
 
@@ -305,10 +385,6 @@ You are free to:
 The code you write in your practice sessions is yours. The curriculum structure, briefs, and methodology in this repo are open for anyone to use and adapt.
 
 ---
-
-## Source
-
-This repo implements the **Frontier Engineer Field Manual**.
 
 <div align="center">
 
