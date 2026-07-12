@@ -10,6 +10,7 @@ Run from: repo root (`cd delta-v`)
 ## Table of Contents
 
 - [Quick Start](#quick-start)
+- [Profiles](#profiles)
 - [Commands](#commands)
   - [new](#new--create-a-new-session)
   - [blank](#blank--create-a-self-directed-practice-folder)
@@ -39,6 +40,29 @@ python3 scripts/new_session.py --help
 
 ---
 
+## Profiles
+
+The curriculum uses three languages. Each has its own scaffold (build files, source templates, checklist commands). The script auto-detects which profile a session uses based on its files and BRIEF.md header.
+
+| Profile | Scaffold files | Language | Enters at |
+|---------|---------------|----------|-----------|
+| `rust` (default) | `Cargo.toml`, `src/main.rs` | Rust | Session 01 (first_30) |
+| `cpp` | `CMakeLists.txt`, `src/main.cpp` | C++ | Stage 7 (Systems + Embedded) |
+| `python` | `pyproject.toml`, `main.py` | Python | Stage 10 (Scientific AI) |
+
+Every session, regardless of profile, gets a `BRIEF.md` with the same 7-step loop. Only the implementation language and checklist commands differ.
+
+**Profile detection (used by `doctor`, `regenerate`, `list`):**
+
+1. Marker file exists? (`Cargo.toml` -> rust, `CMakeLists.txt` -> cpp, `pyproject.toml` -> python)
+2. Source file exists? (`src/main.rs`, `src/main.cpp`, `main.py`)
+3. BRIEF.md table header? (reads the `{Language} / Engineering` row)
+4. Falls back to `rust`
+
+This means regenerate can restore the correct files even if the marker and source files are both deleted - the BRIEF.md alone is enough to identify the profile.
+
+---
+
 ## Commands
 
 ### `new` - Create a new session
@@ -65,28 +89,43 @@ python3 scripts/new_session.py new \
   --title "Compute orbital period" \
   --problem "Given semi-major axis 7000 km, find the orbital period using Kepler's third law." \
   --math "Kepler's third law" \
-  --rust "Constants, f64, functions" \
+  --lang "Constants, f64, functions" \
   --difficulty 3
+```
+
+**Creating a non-Rust session** (C++ or Python):
+
+```bash
+# C++ session (Stage 7+)
+python3 scripts/new_session.py new --profile cpp --dir stage_07 \
+  --title "FFI bridge" \
+  --problem "Call Rust from C via FFI" \
+  --math "Linking, ABI" \
+  --lang "pointers, extern C" \
+  --difficulty 4 --stage 7
+
+# Python session (Stage 10+)
+python3 scripts/new_session.py new --profile python --dir stage_10 \
+  --title "Orbit fitting" \
+  --problem "Fit orbital elements from observations" \
+  --math "Least squares, orbit determination" \
+  --lang "numpy, scipy.optimize" \
+  --difficulty 5 --stage 10
 ```
 
 **Options:**
 
 | Flag | Default | Description |
 |------|---------|-------------|
+| `--profile` | `rust` | Language profile: `rust`, `cpp`, or `python` |
 | `--dir` | `first_30` | Target directory |
 | `--title` | (prompts) | Session title |
 | `--problem` | (prompts) | Problem statement |
 | `--math` | (prompts) | Math/physics concepts |
-| `--rust` | (prompts) | Rust skills |
+| `--lang` | (prompts) | Language/engineering skills |
 | `--difficulty` | (prompts) | 1-6 |
 | `--stage` | `1` | Stage number |
 | `--no-pad` | (padded) | Do not zero-pad (practice_3 instead of practice_03) |
-
-**Creating sessions in a future stage directory:**
-
-```bash
-python3 scripts/new_session.py new --dir stage_03 --title "Two-body dynamics" --problem "..."
-```
 
 ---
 
@@ -115,13 +154,15 @@ Output:
 ```
 Sessions in first_30/
 
-Name                 Title                                              Stage  Diff  Status
--------------------- -------------------------------------------------- ------ ----- ---------------
-practice_01          Session 01: Make an equation executable            1      1     NOT STARTED
-practice_02          Session 02: Turn algebra into a tested function    1      1     IN PROGRESS
-practice_03          Session 03: Represent failure honestly             1      1     NOT STARTED
+Name                 Title                                              Stage  Diff  Lang     Status
+-------------------- -------------------------------------------------- ------ ----- -------- ---------------
+practice_01          Session 01: Make an equation executable            1      1     rust     NOT STARTED
+practice_02          Session 02: Turn algebra into a tested function    1      1     rust     IN PROGRESS
+practice_03          Session 03: Represent failure honestly             1      1     rust     NOT STARTED
 ...
 ```
+
+The `Lang` column is auto-detected from the session's files. For mixed-language directories (future stages), this shows at a glance which sessions are Rust, C++, or Python.
 
 **List a different directory:**
 
@@ -160,25 +201,27 @@ All sessions healthy.
 Output (problems found):
 
 ```
-Health check: first_30/
+Health check: stage_07/
 
-practice_05:
-  [!] MISSING: BRIEF.md
-  [!] MISSING: Cargo.toml
-practice_12:
+practice_07_03 (cpp):
+  [!] MISSING: CMakeLists.txt
+practice_07_05 (rust):
   [!] BROKEN: src/main.rs missing fn main()
 
 Issues found. Run 'regenerate' to restore missing template files.
 ```
 
-**What doctor checks:**
+The profile is auto-detected per session, so mixed-language directories work without configuration.
 
-| Check | What it looks for |
-|-------|-------------------|
-| MISSING | File does not exist at all |
-| EMPTY | File exists but is 0 bytes |
-| BROKEN | Cargo.toml missing `[package]` section |
-| BROKEN | src/main.rs missing `fn main()` |
+**What doctor checks:** Per-profile validation:
+
+| Profile | Checks |
+|---------|--------|
+| rust | Cargo.toml has `[package]`; main.rs has `fn main()` |
+| cpp | CMakeLists.txt has `project()`; main.cpp has `int main()` |
+| python | pyproject.toml has `[project]`; main.py has `__name__` guard |
+
+All profiles also check: every required file exists and is non-empty.
 
 **Check a different directory:**
 
@@ -215,8 +258,8 @@ python3 scripts/new_session.py regenerate --all --force
 | File | When regenerate restores it |
 |------|---------------------------|
 | `BRIEF.md` | Only if missing or empty. Never overwrites a BRIEF with content. |
-| `Cargo.toml` | Only if missing or empty. |
-| `src/main.rs` | Only if missing or empty. Never overwrites code you have written. |
+| `Cargo.toml` / `CMakeLists.txt` / `pyproject.toml` | Only if missing or empty. |
+| `src/main.rs` / `src/main.cpp` / `main.py` | Only if missing or empty. Never overwrites code you have written. |
 | `.gitignore` | Only if missing. |
 
 The `--force` flag overrides these protections and overwrites everything. Use it only if you want to reset a session back to the blank scaffold.
@@ -269,18 +312,31 @@ This means even a heavily edited BRIEF.md can be restored to its pre-edit state 
 
 ## The Session Structure
 
-Every session created by this script follows the same pattern:
+Every session created by this script follows the same pattern. The 7-step BRIEF.md is always present; the implementation files depend on the profile:
 
 ```
 practice_NN/
-├── BRIEF.md      The problem, 7-step learning loop, checklist, notes
-├── Cargo.toml    Independent Cargo project (edition 2024)
-├── .gitignore    Ignores /target
-└── src/
-    └── main.rs   Scaffold with PREDICT/DERIVE/IMPLEMENT/TEST sections
+|-- BRIEF.md         The problem, 7-step learning loop, checklist, notes
+|
+|-- [if profile=rust]
+|   |-- Cargo.toml       Independent Cargo project (edition 2024)
+|   |-- .gitignore       Ignores /target
+|   |-- src/
+|       `-- main.rs      Scaffold with PREDICT/DERIVE/IMPLEMENT/TEST sections
+|
+|-- [if profile=cpp]
+|   |-- CMakeLists.txt    CMake build (C++17, -Wall -Wextra -Wpedantic)
+|   |-- .gitignore        Ignores /build
+|   |-- src/
+|       `-- main.cpp      Scaffold with PREDICT/DERIVE/IMPLEMENT/TEST sections
+|
+|-- [if profile=python]
+    |-- pyproject.toml    Project config (pytest + ruff dev deps)
+    |-- main.py           Scaffold with PREDICT/DERIVE/IMPLEMENT/TEST sections
+    `-- .gitignore        Ignores __pycache__/, .pytest_cache/, etc.
 ```
 
-The four required files are defined in `REQUIRED_FILES` at the top of the script. If you ever need to change what files a session contains (e.g. add a `tests/` directory), update that list and the template functions.
+The required files for each profile are defined in the `PROFILES` registry at the top of the script. To add a new profile (e.g. a fourth language), add an entry to `PROFILES` with its templates, required files, marker file, and checklist items.
 
 ---
 
@@ -313,14 +369,33 @@ cd first_30/week2_review
 ### Adding a session to a future stage
 
 ```bash
+# Rust session in a later stage
 python3 scripts/new_session.py new \
   --dir stage_03 \
   --title "Two-body dynamics" \
   --problem "Implement and propagate a two-body orbit." \
   --math "Newtonian gravitation, ODEs" \
-  --rust "Structs, traits, iterators" \
+  --lang "Structs, traits, iterators" \
   --difficulty 5 \
   --stage 3
+
+# C++ session (Stage 7+)
+python3 scripts/new_session.py new \
+  --profile cpp --dir stage_07 \
+  --title "F Prime component" \
+  --problem "Implement a flight software component" \
+  --math "State machines, real-time constraints" \
+  --lang "classes, templates, RAII" \
+  --difficulty 5 --stage 7
+
+# Python session (Stage 10+)
+python3 scripts/new_session.py new \
+  --profile python --dir stage_10 \
+  --title "Orbit determination" \
+  --problem "Estimate orbital elements from radar observations" \
+  --math "Nonlinear least squares" \
+  --lang "numpy, scipy, jax" \
+  --difficulty 5 --stage 10
 ```
 
 ### Recovering from accidental deletion
