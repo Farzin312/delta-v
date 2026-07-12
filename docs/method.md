@@ -8,46 +8,45 @@ If you are following along, read this before Session 01 and refer back to it con
 
 ## Table of Contents
 
-1. [Origin: Where This Loop Came From](#1-origin-where-this-loop-came-from)
+1. [Origin and Philosophy](#1-origin-and-philosophy)
 2. [The Three Spines](#2-the-three-spines)
 3. [The Dependency Rule](#3-the-dependency-rule)
 4. [The 7-Step Daily Loop and Why Each Step Exists](#4-the-7-step-daily-loop-and-why-each-step-exists)
-5. [Mastery Gate: Advance Only When All Are True](#5-mastery-gate-advance-only-when-all-are-true)
-6. [The AI-Quarantine Protocol](#6-the-ai-quarantine-protocol)
-7. [Understanding Debt](#7-understanding-debt)
-8. [The Engineering Log](#8-the-engineering-log)
-9. [The Question Ladder](#9-the-question-ladder)
-10. [Review Cadence Without a Calendar](#10-review-cadence-without-a-calendar)
-11. [When Stuck: The Reduction Hierarchy](#11-when-stuck-the-reduction-hierarchy)
-12. [Repository Rules](#12-repository-rules)
-13. [Field Checklists](#13-field-checklists)
-14. [How to Ask Better Questions](#14-how-to-ask-better-questions)
+5. [The Programming Approach: Where Planning Fits](#5-the-programming-approach-where-planning-fits)
+6. [Mastery Gate: Advance Only When All Are True](#6-mastery-gate-advance-only-when-all-are-true)
+7. [The AI-Quarantine Protocol](#7-the-ai-quarantine-protocol)
+8. [Understanding Debt](#8-understanding-debt)
+9. [The Engineering Log](#9-the-engineering-log)
+10. [The Question Ladder](#10-the-question-ladder)
+11. [Review Cadence Without a Calendar](#11-review-cadence-without-a-calendar)
+12. [When Stuck: The Reduction Hierarchy](#12-when-stuck-the-reduction-hierarchy)
+13. [Repository Rules](#13-repository-rules)
+14. [Field Checklists](#14-field-checklists)
+15. [How to Ask Better Questions](#15-how-to-ask-better-questions)
 
 ---
 
-## 1. Origin: Where This Loop Came From
+## 1. Origin and Philosophy
 
-This loop did not appear from nowhere. It evolved from a real curriculum.
+This loop was designed for a specific kind of self-study: one where you are building a T-shaped technical identity (deep in computational physics + mission-grade software, broad across spacecraft systems, autonomy, and AI) without the structure of a university program or a code review team.
 
-The predecessor was the **Apocenter handbook** - a 136-page astrodynamics curriculum with mathematical foundations, two-body dynamics, Rust propagation, frames/time, SGP4, perturbations, transfers, and interplanetary design. Apocenter had a strong core: a **6-step loop**:
+The core philosophy is simple:
 
-```
-  predict -> understand -> derive -> implement -> falsify -> explain
-```
+**Every equation becomes an executable. Every implementation gets tested, broken deliberately, and verified independently. No borrowed understanding.**
 
-The Frontier Engineer Field Manual kept that loop but made five changes:
+The 7-step loop exists because each step catches a different kind of failure that the other steps miss. Skip one and you create a blind spot. Skip several and you are doing symbol memorization, not engineering.
 
-| What changed | Why it changed |
-|---|---|
-| Apocenter milestone at every module | The project no longer exists. Replaced with independent laboratory crates and mission scenarios that recombine into several capstones. |
-| Rust concentrated in a later propagator module | Delays syntax, ownership, debugging, and software-thinking practice. Rust now starts on Day 1. |
-| Hints and answers collected after exercise sets | Easy to peek. Each problem is now immediately followed by a reveal page: Hint 1, Hint 2, check target, reasoning, Rust, failure experiment. |
-| Excellent astrodynamics depth but too narrow | Added controls, estimation, signals, computer systems, cFS/F Prime, V&V, security, AI, robotics, and quantum. |
-| AI was a study-assistance appendix | AI is now a full technical spine with its own quarantine protocol. |
+The loop also matters because of what it replaces. Most self-study approaches fall into one of these traps:
 
-The 6-step loop became a 7-step loop. "Understand" was renamed "Explain" (with a stronger requirement: name boundaries, frames, units, assumptions). "Teach" was added as a final step to close the loop and produce external evidence.
+| Trap | What happens | Why it fails |
+|------|-------------|-------------|
+| Tutorial consumption | Read/watch, feel like you learned, cannot reproduce | No prediction, no falsification |
+| Calculator dependency | Type numbers into a solver, get answers, cannot explain | No derivation, no implementation |
+| AI dependency | Ask AI for code, it works, you cannot reconstruct it | No cold start, no blank-page replay |
+| Course pacing | Move on because the calendar says so, not because you own it | No mastery gate |
+| Breadth without depth | Collect introductions to many topics, build nothing reusable | No dependency rule, no evidence ladder |
 
-**The core philosophy did not change.** Every equation becomes an executable. Every implementation gets tested, broken deliberately, and verified independently. No borrowed understanding.
+The loop is the countermeasure. It forces you to produce something at every step, compare it against reality, and keep only what you can defend.
 
 ---
 
@@ -197,11 +196,111 @@ You then **declare the operating domain** - the range of inputs and conditions w
 
 The teaching step closes the loop. What you predicted in Step 1 is compared against what you learned by Step 6. The gap between prediction and reality is the learning. Teaching makes that gap explicit and durable.
 
-This step was added to the original Apocenter 6-step loop because the manual's author recognized that producing external evidence is what separates a learner from an engineer. A learner consumes. An engineer produces artifacts others can inspect.
+This step exists because producing external evidence is what separates a learner from an engineer. A learner consumes. An engineer produces artifacts others can inspect.
 
 ---
 
-## 5. Mastery Gate: Advance Only When All Are True
+## 5. The Programming Approach: Where Planning Fits
+
+People often ask: "Where does software design fit in the 7-step loop?" The answer is that design is not a separate phase -- it is distributed across the loop, and each step has a specific programming discipline attached to it.
+
+### How the loop maps to code
+
+```
+  LOOP STEP          PROGRAMMING DISCIPLINE                 OUTPUT
+  ─────────          ──────────────────────                  ──────
+  1. Predict         Write expected output as a comment.     A comment that can be wrong.
+                     Do not touch the keyboard yet.
+
+  2. Explain         Sketch the types and data flow.         A type-level design on paper.
+                     What are the inputs? Outputs? What
+                     can fail? What units does each
+                     quantity carry?
+
+  3. Derive          Write the equation in a comment         A derivation comment block.
+                     above where the function will go.
+                     Check dimensions. This comment
+                     IS the spec.
+
+  4. Implement       Write the smallest function that        One compiling function.
+                     matches the derivation. No framework.
+                     No abstraction. Pure function:
+                     inputs in, result out, no hidden I/O,
+                     no side effects.
+
+  5. Test            Write tests in this order:              A test module.
+                     (a) Known value from a textbook
+                     (b) Boundary case (zero, empty, max)
+                     (c) Structural property (symmetry,
+                         conservation, monotonicity)
+                     (d) Independent reference if available
+
+  6. Falsify         Deliberately feed bad inputs.           A failure catalog + declared
+                     Classify each failure. Write the        operating domain in docs.
+                     operating domain as a doc comment
+                     on the function.
+
+  7. Teach           Write a BRIEF.md note explaining        A reusable explanation.
+                     what the code does, why it is
+                     structured this way, and where it
+                     fails. Another engineer should be
+                     able to understand it from this
+                     alone.
+```
+
+### The flexibility principle
+
+The loop is a discipline, not a straightjacket. Real programming is messy. You will discover during implementation that your derivation was wrong. You will discover during testing that your API is awkward. You will discover during falsification that your model is too simple. That is fine. The loop is iterative:
+
+```
+  Predict ──► Explain ──► Derive ──► Implement ──► Test ──► Falsify
+     ^                                                       |
+     |                                                       |
+     └───────────── loop back when reality surprises ◄──────┘
+```
+
+When you loop back, you do not restart from scratch. You update the specific step that was wrong:
+- If the implementation exposed a physics error, fix the derivation (Step 3), then re-derive the code.
+- If the test exposed a code bug, fix the implementation (Step 4).
+- If falsification exposed a model limitation, either fix the model or declare the domain (Steps 3 and 6).
+
+### Where API design happens
+
+API design is not a separate meeting. It happens at Step 2 (Explain) and is refined at Step 4 (Implement):
+
+- **Step 2**: You sketch function signatures on paper. `fn speed(distance: f64, time: f64) -> f64`. You ask: what units? What can fail? Should this return Result?
+- **Step 4**: You discover the consequences of your design. Maybe `f64` for everything is too loose. Maybe you need a newtype for Meters. You revise.
+- **Step 5**: Your tests reveal whether the API is usable. If every test needs three lines of setup, the API is too coupled. Simplify.
+
+This is why the manual says "create the smallest pure Rust function or type." You start minimal and let the tests and falsification tell you what complexity you actually need. You do not design a framework and then try to fit physics into it.
+
+### Where architecture happens
+
+Software architecture enters in Stage 1 Session 10 (Build a maintainable crate) and compounds from there. The early sessions are intentionally single-file, single-function. Architecture is earned:
+
+```
+  Sessions 01-09:   One file, one or two functions. No modules.
+  Session 10:       Split into lib.rs + main.rs. First real architecture.
+  Sessions 11-14:   Add closures, generics, iterators. Still one crate.
+  Session 15:       First release: crate boundaries, CLI, CSV output.
+  Session 30:       First workspace: multiple modules, integration tests, CI.
+```
+
+You do not architect before you understand the domain. You architect when the pain of not archiving becomes real. Session 10 exists because by then you have nine sessions of single-file code and you can feel why separation matters. That feeling is the prerequisite for learning modules, pub, and lib.rs.
+
+### The anti-patterns
+
+| Anti-pattern | Why it fails | What to do instead |
+|---|---|---|
+| Design the full API before predicting | You optimize for code aesthetics, not physics | Predict first, let the equation drive the API |
+| Build a framework, then fill in physics | Premature abstraction hides misunderstanding | One function. One concept. Earn complexity. |
+| Write all tests after implementation | You subconsciously avoid testing edge cases you know will fail | Write test cases BEFORE implementation (Step 2-3) |
+| Skip falsification because tests pass | Passing tests prove your code works for cases you thought of. They say nothing about cases you didn't. | Always falsify. Always declare the domain. |
+| Start with AI-generated code | You bypass Steps 1-3 entirely. No prediction, no derivation, no design. | AI enters at Pass 3 (targeted help) or Pass 4 (adversarial review) |
+
+---
+
+## 6. Mastery Gate: Advance Only When All Are True
 
 Do not move to the next unit until you can honestly answer YES to every one of these:
 
@@ -216,7 +315,7 @@ Do not move to the next unit until you can honestly answer YES to every one of t
 
 ---
 
-## 6. The AI-Quarantine Protocol
+## 7. The AI-Quarantine Protocol
 
 This is the most important section for anyone using AI tools (including this repo's author). The manual does not ban AI. It quarantines it behind deliberate practice.
 
@@ -264,7 +363,7 @@ AI is a powerful accelerator. It is also the easiest way to destroy your own lea
 
 ---
 
-## 7. Understanding Debt
+## 8. Understanding Debt
 
 > If AI gives you a correct solution that you cannot reconstruct, the task is not complete. Mark it as borrowed, schedule a blank-page replay, and do not build a dependent concept on top of it yet.
 
@@ -276,7 +375,7 @@ The rule: **never build a dependent concept on top of borrowed understanding.** 
 
 ---
 
-## 8. The Engineering Log
+## 9. The Engineering Log
 
 Every session ends with a log entry. This is not optional. The log is the external memory that compounds across units.
 
@@ -295,7 +394,7 @@ Every session ends with a log entry. This is not optional. The log is the extern
 
 ---
 
-## 9. The Question Ladder
+## 10. The Question Ladder
 
 Not all questions are equal. The manual defines nine levels. The higher the level, the deeper the understanding required.
 
@@ -315,7 +414,7 @@ Not all questions are equal. The manual defines nine levels. The higher the leve
 
 ---
 
-## 10. Review Cadence Without a Calendar
+## 11. Review Cadence Without a Calendar
 
 Since there is no fixed calendar, review happens at natural breakpoints:
 
@@ -328,7 +427,7 @@ Since there is no fixed calendar, review happens at natural breakpoints:
 
 ---
 
-## 11. When Stuck: The Reduction Hierarchy
+## 12. When Stuck: The Reduction Hierarchy
 
 Do not jump to a new subject when stuck. Reduce the problem. Complexity should be earned one assumption at a time.
 
@@ -348,7 +447,7 @@ When you solve the reduced version, add complexity back one assumption at a time
 
 ---
 
-## 12. Repository Rules
+## 13. Repository Rules
 
 These rules are enforced across every practice file:
 
@@ -363,7 +462,7 @@ These rules are enforced across every practice file:
 
 ---
 
-## 13. Field Checklists
+## 14. Field Checklists
 
 Use these before declaring a result trustworthy. They are the fast reviews that a mission-grade engineer performs on every artifact.
 
@@ -414,7 +513,7 @@ Use these before declaring a result trustworthy. They are the fast reviews that 
 
 ---
 
-## 14. How to Ask Better Questions
+## 15. How to Ask Better Questions
 
 When asking for help (from AI, a mentor, or a peer), use this form:
 
