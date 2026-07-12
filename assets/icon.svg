@@ -1,38 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
-  <rect width="256" height="256" rx="32" fill="#0d1117"/>
   <defs>
-    <linearGradient id="orbit-sq" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#58a6ff" stop-opacity="0.7"/>
-      <stop offset="100%" stop-color="#bc8cff" stop-opacity="0.3"/>
+    <linearGradient id="arc-grad-sq" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f85149"/>
+      <stop offset="50%" stop-color="#f0883e"/>
+      <stop offset="100%" stop-color="#58a6ff"/>
     </linearGradient>
-    <linearGradient id="flame-sq" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" stop-color="#f0883e"/>
-      <stop offset="100%" stop-color="#f85149" stop-opacity="0.3"/>
-    </linearGradient>
-    <filter id="glow-sq">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
 
-  <!-- Orbital ellipse -->
-  <ellipse cx="128" cy="128" rx="90" ry="55" stroke="url(#orbit-sq)" stroke-width="2" stroke-dasharray="5 3" fill="none" transform="rotate(-18 128 128)"/>
+  <!-- Dark background for social/og use -->
+  <rect width="256" height="256" rx="32" fill="#0d1117"/>
 
-  <!-- Planet -->
-  <circle cx="105" cy="128" r="18" fill="#1f6feb" filter="url(#glow-sq)"/>
-  <circle cx="100" cy="123" r="5" fill="#58a6ff" opacity="0.5"/>
+  <!-- Trajectory arc with burn -->
+  <path d="M 36 200 Q 90 40 180 110 Q 215 145 230 80"
+        stroke="url(#arc-grad-sq)" stroke-width="4" fill="none" stroke-linecap="round"/>
 
-  <!-- Spacecraft -->
-  <circle cx="208" cy="88" r="5" fill="#f0883e" filter="url(#glow-sq)"/>
-
-  <!-- Delta-v burn vector -->
-  <line x1="208" y1="88" x2="232" y2="64" stroke="url(#flame-sq)" stroke-width="3" stroke-linecap="round"/>
-  <polygon points="232,64 222,62 226,72" fill="#f85149"/>
-
-  <!-- Velocity vector -->
-  <line x1="208" y1="88" x2="220" y2="58" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.4"/>
-  <polygon points="220,58 214,62 216,68" fill="#58a6ff" opacity="0.4"/>
+  <!-- Burn point -->
+  <circle cx="180" cy="110" r="7" fill="#f0883e"/>
+  <circle cx="180" cy="110" r="13" fill="none" stroke="#f0883e" stroke-width="1.5" opacity="0.3"/>
 </svg>
