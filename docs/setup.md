@@ -48,32 +48,21 @@ git clone https://github.com/Farzin312/delta-v.git
 cd delta-v
 ```
 
-### Run Practice 1 (Session 01: Make an Equation Executable)
+### Run Session 01 (Make an Equation Executable)
 
 ```bash
-cd first_30/practice_1
+cd first_30/practice_01
 cargo run
 ```
 
-Expected output:
+The scaffold prints a placeholder message until you implement the functions:
 
 ```
-=== Practice 1: Make an Equation Executable ===
-
-[Kinematics]
-  Initial position: 0 m
-  Initial velocity: 10 m/s
-  Acceleration:     -9.81 m/s^2
-  After 2 s:
-    Position: 0.3800 m
-    Velocity: -9.6200 m/s
-
-[Vectors]
-  v = (3, 4)
-  w = (1, 0)
-  |v|   = 5.0000
-  v . w = 3.0000
+Session 01: Make an equation executable
+Implement the functions below, then fill in main().
 ```
+
+After you implement the solution (signal distance: speed * time), your output will show the computed distance in meters and kilometers.
 
 ### Run Tests
 
@@ -81,18 +70,12 @@ Expected output:
 cargo test
 ```
 
-Expected:
+The scaffold ships with the test module commented out. After you uncomment and implement your tests, you should see:
 
 ```
-running 6 tests
-test tests::test_position_constant_velocity ... ok
-test tests::test_vec2_dot_known ... ok
-test tests::test_position_rest ... ok
-test tests::test_vec2_dot_orthogonal ... ok
-test tests::test_velocity_linear ... ok
-test tests::test_vec2_magnitude ... ok
-
-test result: ok. 6 passed; 0 failed
+running N tests
+...
+test result: ok. N passed; 0 failed
 ```
 
 ### Run Lint Check
@@ -108,39 +91,41 @@ cargo clippy -- -D warnings
 
 ```
 delta-v/
-├── README.md                  <- You are here (start here)
-├── docs/
-│   ├── curriculum.md          <- Full 104-unit, 13-stage curriculum map
-│   ├── method.md              <- The 7-step loop, dependency rule, mastery gates
-│   └── setup.md               <- This file
-├── first_30/                  <- Launch sessions (highest detail)
-│   ├── README.md              <- Session-by-session guide
-│   ├── practice_1/            <- Session 01: Make an equation executable
-│   │   ├── Cargo.toml
-│   │   └── src/
-│   │       └── main.rs        <- Kinematics + Vec2 with 6 tests
-│   ├── practice_2/            <- Session 02: Turn algebra into a tested function
-│   │   ├── Cargo.toml
-│   │   └── src/
-│   │       └── main.rs        <- (placeholder, ready to start)
-│   └── ...                    <- Sessions 3-30 to be added as work progresses
-└── .gitignore
+|-- README.md                  <- Start here
+|-- docs/
+|   |-- INDEX.md               <- Master documentation index
+|   |-- curriculum.md          <- Full 104-unit, 13-stage curriculum map
+|   |-- method.md              <- The 7-step loop, dependency rule, mastery gates
+|   |-- formula_reference.md   <- Every equation, organized by topic
+|   |-- concept_map.md         <- Dependency chain, what each session teaches
+|   |-- setup.md               <- This file
+|   |-- scripts.md             <- Session generator documentation
+|   |-- predict_practice/      <- PREDICT step workbook with examples
+|-- first_30/                  <- Launch sessions (Stages 1-2)
+|   |-- CATALOG.md             <- Session-by-session index with status tracking
+|   |-- practice_01/           <- Session 01: Make an equation executable
+|   |   |-- BRIEF.md           <- Problem, 7-step loop, checklist, notes
+|   |   |-- Cargo.toml         <- Independent Cargo project
+|   |   |-- src/main.rs        <- Scaffold: prediction/derivation/code/tests
+|   |-- practice_02/ .. practice_30/
+|-- scripts/
+|   |-- new_session.py         <- Session generator (create, list, doctor, regenerate)
+|-- LICENSE                    <- MIT
 ```
 
-Each `practice_N/` directory is an **independent Cargo project** -- no workspace, no shared dependencies. This is intentional: each session is self-contained and can be understood in isolation.
+Each `practice_NN/` directory is an **independent Cargo project** -- no workspace, no shared dependencies. This is intentional: each session is self-contained and can be understood in isolation.
 
 ---
 
 ## How Each Session is Organized
 
-Every practice file follows the same structure:
+Every practice directory follows the same structure:
 
-1. **Module doc comment** -- the physical story and what this session covers.
-2. **Main function** -- demonstrates the concept with real values.
-3. **Implementation** -- minimal, clean functions with documented parameters.
-4. **Tests** (`#[cfg(test)] mod tests`) -- known values, edge cases, properties.
+1. **BRIEF.md** -- the problem statement, the full 7-step learning loop, hints, checklist, and notes template.
+2. **Cargo.toml** -- an independent Cargo project (no workspace).
+3. **src/main.rs** -- a scaffold with PREDICT/DERIVE/IMPLEMENT/TEST comment sections to fill in.
 
-You'll see this pattern in every file as sessions are added. The consistency is the point -- it builds habit.
+You write the code. The scaffold provides the structure. See [the method](method.md) for why each step exists.
 
 ---
 
@@ -209,10 +194,11 @@ This log is not busywork. It is the record that proves mastery and surfaces unde
 
 - Read [docs/curriculum.md](curriculum.md) for the full 104-unit map.
 - Read [docs/method.md](method.md) for the learning methodology.
+- See [docs/INDEX.md](INDEX.md) for the master documentation index.
 - The source document is the [Frontier Engineer Field Manual PDF](https://github.com/Farzin312/delta-v).
 
 ---
 
 ## Back to the root
 
-[<- README](../README.md)
+[<- README](../README.md)  |  [<- Documentation Index](INDEX.md)

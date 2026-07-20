@@ -1,0 +1,7 @@
+[package]
+name = "drill-02-functions"
+version = "0.1.0"
+edition = "2024"
+
+[lints.rust]
+unsafe_code = "warn"

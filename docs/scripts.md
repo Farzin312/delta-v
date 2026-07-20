@@ -426,4 +426,4 @@ Update the status line at the top of each BRIEF.md as you work:
 
 ---
 
-[<- README](../README.md)
+[<- README](../README.md)  |  [<- Documentation Index](INDEX.md)

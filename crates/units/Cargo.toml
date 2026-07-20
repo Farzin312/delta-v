@@ -1,0 +1,10 @@
+[package]
+name = "dv-units"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Physical quantities with compile-time unit safety: meters, seconds, angle, velocity"
+
+[lints]
+workspace = true

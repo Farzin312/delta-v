@@ -1,137 +1,181 @@
 # Session 05: Own a small vector type
 
-> Stage 1 | Difficulty: || | Status: NOT STARTED
-
-## The Problem
-
-Implement Vec2 magnitude and addition. Use it to combine 3 m east and 4 m north.
-
-## What This Teaches
-
-| Dimension | Focus |
-|-----------|-------|
-| Math / Physics | Coordinate pairs and magnitude |
-| Rust / Engineering | structs, methods, references, derive |
+> Mission 1: Equation to Domain Type | Difficulty: || | Status: NOT STARTED
+>
+> **Repository destination:** `crates/math/src/vec2.rs`
 
 ---
 
-## The Learning Loop
+## ATTEMPT PAGE
 
-Follow all seven steps. Do not skip. Each step catches a failure the others miss. See [docs/method.md](../../docs/method.md) for the full explanation of why each step exists.
+Work through this page BEFORE opening the Debrief Page below.
 
-### Step 1: PREDICT
+### Three columns
 
-Write your prediction BEFORE any calculation or code. No AI. No hints.
-
-Fill in:
-
-```
-Sign:         (positive / negative / zero?)
-Scale:        (order of magnitude)
-Direction:    (which way? increasing / decreasing?)
-Units:        (what units should the answer have?)
-Failure case: (what input would break this?)
-```
-
-### Step 2: EXPLAIN
-
-Draw the physical story in 5 sentences or less. Name:
-
-- System boundary (what is inside / outside the model?)
-- Coordinate frame (which axis points where?)
-- Assumptions (what are you simplifying away?)
-- Inputs (what values go in?)
-- Outputs (what comes out?)
-
-### Step 3: DERIVE
-
-Write the equation from definitions. Show dimensional analysis.
-
-```
-Equation:
-  (write it here)
-
-Dimensional check:
-  (do the units match on both sides?)
-
-Limiting cases:
-  t = 0:    (what happens?)
-  t -> inf: (what happens?)
-  a = 0:    (what happens?)
-```
-
-### Step 4: IMPLEMENT
-
-Write the smallest pure Rust function that matches your derivation.
-
-Rules:
-- One concept per function
-- No hidden I/O (no println! inside a pure math function)
-- No premature abstraction (no framework, no trait hierarchy)
-- Explicit units in variable names (e.g. `time_s` not `t`)
-
-### Step 5: TEST
-
-Write tests in this order. Each catches a different class of error:
-
-1. **Known value** - a textbook or hand-calculated result
-2. **Boundary** - zero, empty, maximum, or degenerate input
-3. **Property** - a structural invariant (symmetry, conservation, monotonicity)
-4. **Independent reference** - cross-check with a different formula or tool (if available)
-
-### Step 6: FALSIFY
-
-Deliberately break your code. Try:
-
-- Extreme values (very large, very small)
-- Invalid inputs (negative, NaN, infinity)
-- Wrong units (pass seconds where meters expected)
-- Model violations (what if acceleration is not constant?)
-
-For each failure, classify it:
-
-- **Bug** - your code is wrong. Fix it.
-- **Numerical limit** - your math is right but the computer cannot represent it. Document it.
-- **Model limitation** - your equation is correct for its assumptions but they no longer hold. Declare the valid domain.
-
-### Step 7: TEACH
-
-Write what you learned in the Notes section below. Explain:
-
-- What surprised you (where did prediction differ from reality?)
-- What you trust and why
-- Where the code fails and what the valid domain is
-- What concept this unlocks next
+| Mathematics | Physical Meaning | Rust / Engineering |
+|-------------|-----------------|-------------------|
+| Coordinate pairs, magnitude, Pythagorean theorem | Displacement has direction and magnitude | Structs, methods, self, references, derive |
 
 ---
 
-## Hints (only if stuck after Steps 1-3)
+### Integrated Build
 
-1. Think about what physical quantity you are computing and what units it must have.
-2. Consider edge cases: what inputs are invalid? What should happen?
+Implement `Vec2` with addition, scaling, norm (magnitude), and safe normalization. Use it to combine 3 m east and 4 m north, compute the resultant, and verify its magnitude is 5 m.
 
-## Checklist
+---
 
-- [ ] Prediction written before any code
-- [ ] Derivation includes dimensional check
-- [ ] Implementation compiles with `cargo build`
-- [ ] At least one known-value test passes
-- [ ] At least one boundary test passes
-- [ ] At least one property or independent-reference test
-- [ ] `cargo fmt` clean
-- [ ] `cargo clippy -- -D warnings` clean
-- [ ] At least one failure case identified and classified (bug / numerical / model)
-- [ ] Operating domain declared in comments or docs
-- [ ] Engineering log entry written
-- [ ] Notes section filled in below
+### By-Hand Practice
 
-## Notes
+- [ ] Draw 3 m east and 4 m north on graph paper (or sketch). Draw the resultant vector from origin to the endpoint.
+- [ ] Compute the magnitude using the Pythagorean theorem: sqrt(3^2 + 4^2) = sqrt(9 + 16) = sqrt(25) = 5
+- [ ] State why the zero vector cannot be normalized. What goes wrong mathematically? (Division by zero.)
 
-_Write your discoveries, surprises, and remaining questions here as you work._
+---
+
+### Prediction Before Code
+
+```
+Sign:         (components can be positive or negative; magnitude is always non-negative)
+Scale:        (magnitude of (3, 4) is 5 — what scale?)
+Direction:    (the resultant of east + north points northeast — about 53 degrees from east)
+Units:        (Vec2 components are in meters for displacement; magnitude is in meters)
+Failure case: (normalizing the zero vector)
+```
+
+Sketch the API:
+
+```
+Struct name:     Vec2 { x: f64, y: f64 }
+Methods:         new(x, y) -> Vec2
+                 add(self, other) -> Vec2
+                 scale(self, factor) -> Vec2
+                 norm(self) -> f64
+                 normalize(self) -> Result<Vec2, ___>
+Test names:      1. ___________  2. ___________  3. ___________  4. ___________
+```
+
+---
+
+### Independent Rust Drill
+
+Separate from the physics build. From a blank file:
+
+- [ ] Implement a `Point2` struct with x, y fields and methods for distance to another point
+- [ ] Implement a `Vec2` with intentionally different API from your Point2 (different method names, different conventions)
+- [ ] Derive `Debug`, `Clone`, `Copy`, `PartialEq` on both
+- [ ] Write a test that the 3-4-5 triangle has magnitude 5
+
+---
+
+### Tests Written First
+
+```
+1. test_3_4_5_vector:          Vec2(3, 4).norm() == 5.0
+2. test_zero_norm:             Vec2(0, 0).norm() == 0.0
+3. test_addition_identity:     Vec2(3, 4).add(Vec2(0, 0)) == Vec2(3, 4)
+4. test_scaling:               Vec2(3, 4).scale(2.0) == Vec2(6, 8)
+5. test_zero_normalization:    Vec2(0, 0).normalize() returns Err(___________)
+```
+
+---
+
+### Gate: Do Not Open the Debrief Until
+
+- [ ] Hand result exists (drew the vectors and computed magnitude by hand)
+- [ ] API is sketched (struct and methods)
+- [ ] Tests are named
+- [ ] First implementation attempt compiles or has a diagnosed error
+
+---
+
+## DEBRIEF PAGE
+
+### Hint Ladder
+
+**Hint 1.** Operations belong near the type. Put `add`, `scale`, `norm` as methods on Vec2 in an `impl` block, not as free functions.
+
+**Hint 2.** Use `hypot` for the norm. `f64::hypot(y)` computes sqrt(x^2 + y^2) with better numerical properties than naive squaring (avoids overflow for large values).
+
+**Hint 3.** Normalization needs an error path. Dividing by zero magnitude is undefined. Return `Result<Vec2, MathError>` or similar.
+
+---
+
+### Failure Campaign
+
+- [ ] Normalize the zero vector. What happens if you divide by zero without checking? (You get NaN or infinity components.) Your error path should prevent this.
+
+- [ ] Normalize a vector with one huge component (e.g., 1e300, 1e300). Does `hypot` overflow? Compare with `sqrt(x*x + y*y)` — which one survives?
+
+- [ ] Create a Vec2 with NaN components. What is its norm? Can you detect this?
+
+---
+
+### Repository Destination
+
+`Vec2` graduates to `crates/math/src/vec2.rs`. This is the canonical
+2-D vector type for the entire workspace. When Session 16 introduces
+`Vec3`, it goes in `crates/math/src/vec3.rs` in the same crate.
+
+---
+
+### Python / Independent Check
+
+Plot the component vectors and resultant:
+
+```python
+import matplotlib.pyplot as plt
+
+# Components
+plt.arrow(0, 0, 3, 0, head_width=0.2, color='blue', label='3m east')
+plt.arrow(0, 0, 0, 4, head_width=0.2, color='green', label='4m north')
+plt.arrow(0, 0, 3, 4, head_width=0.2, color='red', label='resultant')
+
+# Verify magnitude
+import math
+print(f"Magnitude: {math.hypot(3, 4)}")  # Should be 5.0
+```
+
+---
+
+### Reference Shape
+
+```rust
+#[derive(Clone, Copy, Debug, PartialEq)]
+struct Vec2 { x: f64, y: f64 }
+
+impl Vec2 {
+    fn new(x: f64, y: f64) -> Self { Self { x, y } }
+    fn add(self, other: Self) -> Self { Self { x: self.x + other.x, y: self.y + other.y } }
+    fn norm(self) -> f64 { self.x.hypot(self.y) }
+}
+```
+
+---
+
+### Mastery Claim
+
+> "I can explain the ownership choices for Copy versus borrowed vector operations."
+
+Why does Vec2 derive Copy? When would you NOT want Copy? Write in Notes.
+
+---
+
+### Delayed Gate (complete at least ONE WEEK after the session)
+
+- [ ] Recreate Vec2 with all methods from memory
+- [ ] Solve a changed case by hand (e.g., 5 m east and 12 m north)
+- [ ] Explain why zero normalization fails and why hypot is safer than sqrt(x^2+y^2)
+- [ ] Reproduce from clean clone
+
+---
+
+## Session Notes
 
 - **What surprised me:**
 - **What I trust:**
 - **Where it fails:**
-- **What this unlocks:**
+- **What this unlocks:** (Vec2 is the foundation for all 2-D motion, forces, frames)
+- **Copy vs borrowed explanation:**
 - **Last practiced:** (date)
+- **Delayed gate date:** (date + 1 week)
 - **Mastery gate passed:** [ ] yes [ ] not yet

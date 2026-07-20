@@ -1,0 +1,53 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/units",
+    "crates/math",
+    "crates/numerics",
+    "crates/mechanics",
+    "crates/frames",
+    "crates/orbit",
+]
+
+# first_30/ sessions are standalone Cargo projects, NOT workspace members.
+# Each is independent — no shared dependencies, no shared target dir.
+# Cargo auto-discovers nested Cargo.toml files, so we must explicitly
+# exclude them. Concepts graduate from sessions into crates/ one at a time.
+exclude = [
+    # first_30/ sessions - standalone Cargo projects
+    "first_30/practice_01", "first_30/practice_02", "first_30/practice_03",
+    "first_30/practice_04", "first_30/practice_05", "first_30/practice_06",
+    "first_30/practice_07", "first_30/practice_08", "first_30/practice_09",
+    "first_30/practice_10", "first_30/practice_11", "first_30/practice_12",
+    "first_30/practice_13", "first_30/practice_14", "first_30/practice_15",
+    "first_30/practice_16", "first_30/practice_17", "first_30/practice_18",
+    "first_30/practice_19", "first_30/practice_20", "first_30/practice_21",
+    "first_30/practice_22", "first_30/practice_23", "first_30/practice_24",
+    "first_30/practice_25", "first_30/practice_26", "first_30/practice_27",
+    "first_30/practice_28", "first_30/practice_29", "first_30/practice_30",
+    # drills/ - standalone Cargo projects for language fluency practice
+    "drills/01-fundamentals", "drills/02-functions", "drills/03-enums-errors",
+    "drills/04-newtypes", "drills/05-structs-methods",
+]
+
+[workspace.package]
+version = "0.0.1"
+edition = "2024"
+license = "MIT"
+rust-version = "1.85"
+
+[workspace.lints.rust]
+unsafe_code = "warn"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+# Allow these — they add noise without value in numerical code:
+cast_possible_truncation = "allow"
+cast_possible_wrap = "allow"
+cast_precision_loss = "allow"
+cast_sign_loss = "allow"
+float_cmp = "allow"
+module_name_repetitions = "allow"
+must_use_candidate = "allow"
+similar_names = "allow"

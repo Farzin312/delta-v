@@ -1,0 +1,15 @@
+[package]
+name = "dv-orbit"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Orbital mechanics: gravity models, propagation, and diagnostics"
+
+[dependencies]
+dv-units = { path = "../units" }
+dv-math = { path = "../math" }
+dv-numerics = { path = "../numerics" }
+
+[lints]
+workspace = true

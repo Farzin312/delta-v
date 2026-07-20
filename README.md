@@ -12,7 +12,7 @@ Every equation becomes an executable. Every implementation gets tested, broken d
 
 No borrowed understanding.
 
-[License: MIT](LICENSE) &nbsp;·&nbsp; [Setup Guide](docs/setup.md) &nbsp;·&nbsp; [Method](docs/method.md) &nbsp;·&nbsp; [Full Curriculum](docs/curriculum.md)
+[License: MIT](LICENSE) &nbsp;·&nbsp; [Documentation Index](docs/INDEX.md) &nbsp;·&nbsp; [Setup Guide](docs/setup.md) &nbsp;·&nbsp; [Method](docs/method.md) &nbsp;·&nbsp; [Full Curriculum](docs/curriculum.md)
 
 </div>
 
@@ -236,9 +236,18 @@ delta-v/
 |   |-- icon.svg                <-- Square icon (for social/og)
 |
 |-- docs/                       <-- Deep guides for following along
+|   |-- INDEX.md                <-- Master documentation index (start here)
 |   |-- curriculum.md           <-- Full 104-unit, 13-stage map
 |   |-- method.md               <-- The 7-step loop, programming approach,
 |   |                               AI-quarantine, mastery gates, field checklists
+|   |-- formula_reference.md    <-- Every equation, organized by topic
+|   |-- concept_map.md          <-- Dependency chain, what each session teaches
+|   |-- predict_practice/       <-- Workbook for the PREDICT loop and estimating scale
+|   |   |-- README.md           <-- Guide on scale and estimating without equations
+|   |   |-- example_01_...      <-- Cliff drop step-by-step example
+|   |   |-- example_02_...      <-- Braking car step-by-step example
+|   |   |-- example_03_...      <-- Satellite orbit step-by-step example
+|   |   |-- practice_...        <-- Practice problems with solutions
 |   |-- setup.md                <-- Environment setup, how to run, engineering log
 |   |-- scripts.md              <-- Session generator tool documentation
 |
@@ -364,8 +373,12 @@ The full [AI-Quarantine Protocol](docs/method.md#7-the-ai-quarantine-protocol) d
 
 | Document | What is in it |
 |----------|--------------|
+| [docs/INDEX.md](docs/INDEX.md) | Master documentation index -- start here for navigation |
 | [docs/curriculum.md](docs/curriculum.md) | Full 104-unit map across 13 stages, portfolio evidence ladder, competitive positioning |
 | [docs/method.md](docs/method.md) | The 7-step loop, programming approach, AI-quarantine protocol, understanding debt, field checklists, question ladder |
+| [docs/formula_reference.md](docs/formula_reference.md) | Every equation from all 30 sessions, organized by topic with dimensional checks and session cross-references |
+| [docs/concept_map.md](docs/concept_map.md) | Dependency chain showing what each session teaches and what it unlocks next |
+| [docs/predict_practice/README.md](docs/predict_practice/README.md) | Guide and workbook for the PREDICT loop, estimating scale, and predicting without equations (includes step-by-step examples and practice exercises) |
 | [docs/setup.md](docs/setup.md) | Environment setup, tool installation, how to run, engineering log template |
 | [docs/scripts.md](docs/scripts.md) | Session generator: create, list, health-check, and restore practice templates |
 | [first_30/CATALOG.md](first_30/CATALOG.md) | Session-by-session index with difficulty ratings and status tracking |

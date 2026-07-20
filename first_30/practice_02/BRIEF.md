@@ -1,137 +1,171 @@
-# Session 02: Turn algebra into a tested function
+# Session 02: Turn algebra into tested functions
 
-> Stage 1 | Difficulty: | | Status: NOT STARTED
-
-## The Problem
-
-A rover moves 126 m in 42 s. Compute average speed. Then rearrange the same relation to recover distance from speed and time.
-
-## What This Teaches
-
-| Dimension | Focus |
-|-----------|-------|
-| Math / Physics | Rearranging v=d/t and unit consistency |
-| Rust / Engineering | functions, parameters, return values, #[test] |
+> Mission 1: Equation to Domain Type | Difficulty: | | Status: NOT STARTED
+>
+> **Repository destination:** `crates/foundation/src/kinematics.rs`
+> (Note: foundation crate merges into units during graduation)
 
 ---
 
-## The Learning Loop
+## ATTEMPT PAGE
 
-Follow all seven steps. Do not skip. Each step catches a failure the others miss. See [docs/method.md](../../docs/method.md) for the full explanation of why each step exists.
+Work through this page BEFORE opening the Debrief Page below.
 
-### Step 1: PREDICT
+### Three columns
 
-Write your prediction BEFORE any calculation or code. No AI. No hints.
+| Mathematics | Physical Meaning | Rust / Engineering |
+|-------------|-----------------|-------------------|
+| Rearranging equations and inverse relationships | Average speed and round-trip consistency | Parameters, return values, unit tests |
 
-Fill in:
+---
+
+### Integrated Build
+
+Implement `speed(distance, time)` and `distance(speed, time)` as two pure functions. A rover moves 126 m in 42 s. Compute average speed. Then rearrange the same relation to recover distance from speed and time.
+
+---
+
+### By-Hand Practice
+
+- [ ] Rearrange d = v x t for every variable. Write all three forms: v = d/t, d = v x t, t = d/v
+- [ ] State the valid domain of time. Can time be zero? Can it be negative? Why or why not?
+- [ ] Predict a round-trip property. If you compute speed from (d, t), then compute distance from (speed, t), do you get d back? Prove it algebraically.
+
+---
+
+### Prediction Before Code
 
 ```
 Sign:         (positive / negative / zero?)
-Scale:        (order of magnitude)
-Direction:    (which way? increasing / decreasing?)
-Units:        (what units should the answer have?)
-Failure case: (what input would break this?)
+Scale:        (what order of magnitude for 126 m / 42 s?)
+Direction:    (what happens to speed as distance increases at fixed time?)
+Units:        (what units? how do they combine?)
+Failure case: (what input breaks v = d / t?)
 ```
 
-### Step 2: EXPLAIN
-
-Draw the physical story in 5 sentences or less. Name:
-
-- System boundary (what is inside / outside the model?)
-- Coordinate frame (which axis points where?)
-- Assumptions (what are you simplifying away?)
-- Inputs (what values go in?)
-- Outputs (what comes out?)
-
-### Step 3: DERIVE
-
-Write the equation from definitions. Show dimensional analysis.
+Sketch the API:
 
 ```
-Equation:
-  (write it here)
-
-Dimensional check:
-  (do the units match on both sides?)
-
-Limiting cases:
-  t = 0:    (what happens?)
-  t -> inf: (what happens?)
-  a = 0:    (what happens?)
+Function names:   ___________ and ___________
+Parameters:       (names and types for each)
+Return types:     ___________
+Test names:       1. ___________
+                  2. ___________
+                  3. ___________
 ```
-
-### Step 4: IMPLEMENT
-
-Write the smallest pure Rust function that matches your derivation.
-
-Rules:
-- One concept per function
-- No hidden I/O (no println! inside a pure math function)
-- No premature abstraction (no framework, no trait hierarchy)
-- Explicit units in variable names (e.g. `time_s` not `t`)
-
-### Step 5: TEST
-
-Write tests in this order. Each catches a different class of error:
-
-1. **Known value** - a textbook or hand-calculated result
-2. **Boundary** - zero, empty, maximum, or degenerate input
-3. **Property** - a structural invariant (symmetry, conservation, monotonicity)
-4. **Independent reference** - cross-check with a different formula or tool (if available)
-
-### Step 6: FALSIFY
-
-Deliberately break your code. Try:
-
-- Extreme values (very large, very small)
-- Invalid inputs (negative, NaN, infinity)
-- Wrong units (pass seconds where meters expected)
-- Model violations (what if acceleration is not constant?)
-
-For each failure, classify it:
-
-- **Bug** - your code is wrong. Fix it.
-- **Numerical limit** - your math is right but the computer cannot represent it. Document it.
-- **Model limitation** - your equation is correct for its assumptions but they no longer hold. Declare the valid domain.
-
-### Step 7: TEACH
-
-Write what you learned in the Notes section below. Explain:
-
-- What surprised you (where did prediction differ from reality?)
-- What you trust and why
-- Where the code fails and what the valid domain is
-- What concept this unlocks next
 
 ---
 
-## Hints (only if stuck after Steps 1-3)
+### Independent Rust Drill
 
-1. Think about what physical quantity you are computing and what units it must have.
-2. Consider edge cases: what inputs are invalid? What should happen?
+Separate from the physics build. From a blank file:
 
-## Checklist
+- [ ] Write three small inverse functions (e.g., `double` and `halve`, `celsius_to_fahrenheit` and `fahrenheit_to_celsius`)
+- [ ] Test that composition returns the starting value: `assert_eq!(halve(double(42.0)), 42.0)`
+- [ ] Write a test that checks a large-scale value
 
-- [ ] Prediction written before any code
-- [ ] Derivation includes dimensional check
-- [ ] Implementation compiles with `cargo build`
-- [ ] At least one known-value test passes
-- [ ] At least one boundary test passes
-- [ ] At least one property or independent-reference test
-- [ ] `cargo fmt` clean
-- [ ] `cargo clippy -- -D warnings` clean
-- [ ] At least one failure case identified and classified (bug / numerical / model)
-- [ ] Operating domain declared in comments or docs
-- [ ] Engineering log entry written
-- [ ] Notes section filled in below
+---
 
-## Notes
+### Tests Written First
 
-_Write your discoveries, surprises, and remaining questions here as you work._
+Name your tests and write expected values by hand:
+
+```
+1. test_known_speed:        126 m / 42 s = ___ m/s
+2. test_round_trip:         speed(126, 42) then distance(result, 42) = ___ m
+3. test_large_scale_value:  1_000_000 m / 1000 s = ___ m/s
+```
+
+---
+
+### Gate: Do Not Open the Debrief Until
+
+- [ ] Hand result exists (computed speed and round-trip on paper)
+- [ ] API is sketched
+- [ ] Tests are named
+- [ ] First implementation attempt compiles or has a diagnosed error
+
+---
+
+## DEBRIEF PAGE
+
+### Hint Ladder
+
+**Hint 1.** Derive first. Write v = d/t on paper. Write d = v x t. Check dimensions: (m/s) = m / s and m = (m/s) x s.
+
+**Hint 2.** Make two pure functions. Each takes parameters, returns a value, no printing inside.
+
+**Hint 3.** Test a property, not just a number. The round-trip property (speed then distance returns original d) is stronger than checking a single value.
+
+---
+
+### Failure Campaign
+
+- [ ] Pass zero time (t = 0) to `speed`. What happens? Inspect IEEE-754 infinity. Is this a bug or a domain issue?
+
+- [ ] Pass negative time. Does speed come out negative? Is negative speed meaningful here?
+
+- [ ] Pass NaN. Does NaN propagate silently?
+
+Classify each: **Bug**, **Numerical limit**, or **Model limitation**.
+
+---
+
+### Repository Destination
+
+The kinematics functions graduate to `crates/foundation/src/kinematics.rs`
+when Session 04 introduces unit types. For now, keep them in this session.
+
+---
+
+### Python / Independent Check
+
+Use Python ONLY to compare floating-point output, not to design the API:
+
+```python
+d, t = 126.0, 42.0
+v = d / t
+print(f"{v} m/s")
+assert d == v * t  # round-trip
+```
+
+---
+
+### Reference Shape
+
+```rust
+fn speed_mps(distance_m: f64, time_s: f64) -> f64 { distance_m / time_s }
+fn distance_m(speed_mps: f64, time_s: f64) -> f64 { speed_mps * time_s }
+```
+
+---
+
+### Mastery Claim
+
+After completing this session, you should be able to say:
+
+> "I can create a metamorphic test (round-trip property) and explain why it is stronger than a duplicate example."
+
+Write your explanation in Notes.
+
+---
+
+### Delayed Gate (complete at least ONE WEEK after the session)
+
+- [ ] Recreate both functions from memory
+- [ ] Solve a changed case by hand (e.g., 500 m / 25 s)
+- [ ] Explain the failure experiment and operating domain
+- [ ] Reproduce from clean clone
+
+---
+
+## Session Notes
 
 - **What surprised me:**
 - **What I trust:**
 - **Where it fails:**
 - **What this unlocks:**
+- **Round-trip property explanation:**
 - **Last practiced:** (date)
+- **Delayed gate date:** (date + 1 week)
 - **Mastery gate passed:** [ ] yes [ ] not yet

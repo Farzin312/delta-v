@@ -280,4 +280,4 @@ The goal is not to be "better at everything." It is to own the rare overlap most
 
 ## Back to the root
 
-[<- README](../README.md)
+[<- README](../README.md)  |  [<- Documentation Index](INDEX.md)

@@ -135,6 +135,10 @@ This is the engine. Every session, every unit, every practice file follows this 
 
 **Example:** "A ball thrown up at 10 m/s under gravity should reach peak at about t=1s and be falling by t=2s. Position at t=2s should be near zero (it went up and came back down). Velocity should be negative (falling)."
 
+> [!NOTE]
+> For a detailed guide on understanding **Scale** (order of magnitude), learning how to predict when you do not yet know the equations, and doing practice exercises with solutions, see the [Predict Practice Workbook](predict_practice/README.md).
+
+
 ### Step 2: EXPLAIN
 
 **What you do:** Draw the physical story. Name system boundary, frame, units, assumptions, inputs, and outputs.
@@ -537,4 +541,4 @@ This produces learning. "Give me the code" produces dependency.
 
 ## Back to the root
 
-[<- README](../README.md)
+[<- README](../README.md)  |  [<- Documentation Index](INDEX.md)  |  [Formula Reference](formula_reference.md)  |  [Concept Map](concept_map.md)

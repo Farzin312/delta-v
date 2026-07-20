@@ -1,0 +1,13 @@
+[package]
+name = "dv-numerics"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Differentiation, integration, and ODE integration for physics simulation"
+
+[dependencies]
+dv-math = { path = "../math" }
+
+[lints]
+workspace = true

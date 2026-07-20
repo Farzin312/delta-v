@@ -1,0 +1,13 @@
+[package]
+name = "dv-math"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Vector types, matrices, and approximate comparison for computational physics"
+
+[dependencies]
+dv-units = { path = "../units" }
+
+[lints]
+workspace = true
